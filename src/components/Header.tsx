@@ -1,4 +1,4 @@
-import { Shield, Wallet } from "lucide-react";
+import { FileText, Lock, Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import logo from "@/assets/logo.png";
@@ -18,10 +18,11 @@ const Header = () => {
           
           <nav className="flex items-center space-x-6">
             <Button variant="ghost" size="sm">
-              <Shield className="mr-2 h-4 w-4" />
+              <FileText className="mr-2 h-4 w-4" />
               Claims
             </Button>
             <Button variant="ghost" size="sm">
+              <Lock className="mr-2 h-4 w-4" />
               Privacy
             </Button>
             <ConnectButton />

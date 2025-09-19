@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { ArrowLeft, Shield, Upload, FileText } from "lucide-react";
+import { ArrowLeft, Lock, Upload, FileText, Database } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { useAccount } from 'wagmi';
 import { useSubmitClaim, FHEEncryption, CLAIM_TYPES } from "@/lib/contract";
@@ -139,7 +139,7 @@ const NewClaim = () => {
           </Button>
           
           <div className="flex items-center space-x-3 mb-2">
-            <Shield className="h-8 w-8 text-primary" />
+            <Database className="h-8 w-8 text-primary" />
             <h1 className="text-3xl font-bold text-primary">New Secure Claim</h1>
           </div>
           <p className="text-muted-foreground">

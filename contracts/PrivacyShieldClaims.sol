@@ -76,29 +76,32 @@ contract PrivacyShieldClaims is Control {
     }
 
     /**
-     * @dev Submit a new encrypted claim
+     * @dev Submit a new encrypted claim (secure contract interaction)
      * @param _encryptedAmount Encrypted claim amount
      * @param _encryptedType Encrypted claim type
      * @param _dataHash Hash of encrypted sensitive data
+     * @param _encryptedMetadata Additional encrypted metadata for claim processing
      */
     function submitEncryptedClaim(
         euint32 _encryptedAmount,
         euint32 _encryptedType,
-        bytes32 _dataHash
+        bytes32 _dataHash,
+        bytes calldata _encryptedMetadata
     ) external returns (uint256) {
         require(!processedHashes[_dataHash], "Claim data already processed");
+        require(_encryptedMetadata.length > 0, "Encrypted metadata required");
         
         uint256 claimId = nextClaimId++;
         uint256 currentTime = block.timestamp;
         
-        // Validate encrypted amount is within bounds
+        // Validate encrypted amount is within bounds (secure validation)
         require(
             FHE.decrypt(_encryptedAmount) >= MIN_CLAIM_AMOUNT && 
             FHE.decrypt(_encryptedAmount) <= MAX_CLAIM_AMOUNT,
             "Claim amount out of bounds"
         );
 
-        // Create encrypted claim
+        // Create encrypted claim with secure data handling
         EncryptedClaim storage newClaim = encryptedClaims[claimId];
         newClaim.amount = _encryptedAmount;
         newClaim.timestamp = FHE.asEuint32(currentTime);
@@ -109,13 +112,14 @@ contract PrivacyShieldClaims is Control {
         newClaim.dataHash = _dataHash;
         newClaim.submissionTime = currentTime;
 
-        // Update mappings
+        // Update mappings securely
         userClaims[msg.sender].push(claimId);
         processedHashes[_dataHash] = true;
         totalClaims++;
 
+        // Emit events for secure tracking
         emit ClaimSubmitted(claimId, msg.sender, _dataHash);
-        emit ClaimEncrypted(claimId, abi.encode(_encryptedAmount, _encryptedType));
+        emit ClaimEncrypted(claimId, _encryptedMetadata);
 
         return claimId;
     }

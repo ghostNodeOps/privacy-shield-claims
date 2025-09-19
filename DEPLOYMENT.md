@@ -29,10 +29,10 @@ Add the following environment variables in the Vercel dashboard:
 
 ```env
 NEXT_PUBLIC_CHAIN_ID=11155111
-NEXT_PUBLIC_RPC_URL=https://sepolia.infura.io/v3/b18fb7e6ca7045ac83c41157ab93f990
-NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID=2ec9743d0d0cd7fb94dee1a7e6d33475
-NEXT_PUBLIC_INFURA_API_KEY=b18fb7e6ca7045ac83c41157ab93f990
-NEXT_PUBLIC_CONTRACT_ADDRESS=0x0000000000000000000000000000000000000000
+NEXT_PUBLIC_RPC_URL=your_sepolia_rpc_url_here
+NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID=your_walletconnect_project_id_here
+NEXT_PUBLIC_INFURA_API_KEY=your_infura_api_key_here
+NEXT_PUBLIC_CONTRACT_ADDRESS=your_deployed_contract_address_here
 ```
 
 **To add environment variables:**
@@ -120,10 +120,10 @@ The project uses Vite with the following configuration:
 ### Environment Variables Checklist
 
 - [ ] `NEXT_PUBLIC_CHAIN_ID` = 11155111
-- [ ] `NEXT_PUBLIC_RPC_URL` = Sepolia RPC URL
+- [ ] `NEXT_PUBLIC_RPC_URL` = Your Sepolia RPC URL
 - [ ] `NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID` = Your WalletConnect Project ID
 - [ ] `NEXT_PUBLIC_INFURA_API_KEY` = Your Infura API Key
-- [ ] `NEXT_PUBLIC_CONTRACT_ADDRESS` = Deployed contract address
+- [ ] `NEXT_PUBLIC_CONTRACT_ADDRESS` = Your deployed contract address
 
 ## Security Considerations
 
