@@ -31,7 +31,7 @@ const NewClaim = () => {
   const { address, isConnected } = useAccount();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
-  const { write: submitClaim, isLoading: isSubmittingClaim } = useSubmitClaim();
+  const { submitClaim, isPending: isSubmittingClaim } = useSubmitClaim();
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -90,16 +90,14 @@ const NewClaim = () => {
       );
 
       // Submit to blockchain
-      if (submitClaim) {
-        await submitClaim();
-        
-        toast({
-          title: "Claim submitted successfully",
-          description: "Your encrypted claim has been securely submitted to the blockchain",
-        });
-        
-        navigate("/");
-      }
+      await submitClaim();
+      
+      toast({
+        title: "Claim submitted successfully",
+        description: "Your encrypted claim has been securely submitted to the blockchain",
+      });
+      
+      navigate("/");
     } catch (error) {
       console.error("Error submitting claim:", error);
       toast({

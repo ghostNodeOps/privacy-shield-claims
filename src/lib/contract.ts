@@ -1,5 +1,5 @@
 import { Contract, ethers } from 'ethers';
-import { useAccount, useContractRead, useContractWrite, usePrepareContractWrite } from 'wagmi';
+import { useAccount, useContractRead, useContractWrite, useWriteContract } from 'wagmi';
 
 // Contract ABI (simplified for demonstration)
 const PRIVACY_SHIELD_ABI = [
@@ -69,21 +69,30 @@ export const contractConfig = {
 export function useSubmitClaim() {
   const { address } = useAccount();
   
-  const { config } = usePrepareContractWrite({
-    ...contractConfig,
-    functionName: 'submitEncryptedClaim',
-    args: [
-      // Encrypted values for secure processing
-      100000, // encryptedAmount (FHE-encrypted)
-      1,      // encryptedType (FHE-encrypted)
-      '0x0000000000000000000000000000000000000000000000000000000000000000', // dataHash
-      '0x' // encryptedMetadata (FHE-encrypted additional data)
-    ],
-    // Ensure secure transaction parameters
-    gas: BigInt(500000), // Sufficient gas for FHE operations
-  });
+  const { writeContract, isPending, error } = useWriteContract();
 
-  return useContractWrite(config);
+  const submitClaim = async () => {
+    if (!address) return;
+    
+    try {
+      await writeContract({
+        ...contractConfig,
+        functionName: 'submitEncryptedClaim',
+        args: [
+          // Encrypted values for secure processing
+          100000, // encryptedAmount (FHE-encrypted)
+          1,      // encryptedType (FHE-encrypted)
+          '0x0000000000000000000000000000000000000000000000000000000000000000', // dataHash
+          '0x' // encryptedMetadata (FHE-encrypted additional data)
+        ],
+        gas: BigInt(500000), // Sufficient gas for FHE operations
+      });
+    } catch (err) {
+      console.error('Error submitting claim:', err);
+    }
+  };
+
+  return { submitClaim, isPending, error };
 }
 
 // Hook for getting user claims
